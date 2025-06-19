@@ -11,7 +11,7 @@ h1{
   display: flex;
   justify-content: center;
   font-weight: bold;
-  flex-direction: column;
+  flex-direction: row;
   text-align: center;
   font-size: 2.8rem;
   justify-content: center;
@@ -68,4 +68,16 @@ button{
 
 .pinned{
   background-color: rgb(235, 235, 79);
+}
+
+.changeDate{
+  background-color: rgb(181, 255, 175);
+  color: #0f0500;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  padding-bottom: 6px;
+  margin-left: 10px;
+  margin-right: 10px;
 }

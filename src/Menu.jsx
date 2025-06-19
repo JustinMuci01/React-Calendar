@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 
-function Menu(){
+function Menu(props){
     
     const[tasks, setTasks] = useState([
         {
@@ -14,7 +14,24 @@ function Menu(){
         ]);
     const[newTask, setNewTask] = useState({name:"", isPinned:false}); 
     const[removedTasks, setRemovedTask] = useState([]); 
-    const currentDate = new Date();
+    const curr = new Date();
+    const[currentDate, setCurrentDate] = useState(new Date());
+
+    function incDateChange(currentDate)
+    {
+        let day = new Date(currentDate);
+        day.setDate(currentDate.getDate() + 1);
+        setCurrentDate(day);
+    }
+    function decDateChange(currentDate)
+    {
+        if (currentDate >= curr)
+        {
+        let day = new Date(currentDate);
+        day.setDate(currentDate.getDate() - 1);
+        setCurrentDate(day);
+        }
+    }
 
     function handleInputChange(e){
         setNewTask(newTask => ({
@@ -69,7 +86,12 @@ function Menu(){
     return(
         <>
         <div className="ToDo-list">
-        <h1>{currentDate.toLocaleDateString()} </h1>
+        <h1><button className = "changeDate" onClick= {() =>decDateChange(currentDate)}>&larr;</button>
+        {currentDate.toLocaleDateString()} 
+        <button className = "changeDate" onClick= {() => incDateChange(currentDate)}>&rarr;</button></h1>
+        {/* We use an arrow function here to say on click run the function, without it the function would
+        be ran upon rendering and the return value would be returned on click.
+        This is called a wrapper function */}
 
         <div>
         <input type="text" onChange = {handleInputChange} placeholder="Enter new task..."/> 
