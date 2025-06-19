@@ -1,0 +1,71 @@
+body{
+  background-color: #0f0500;
+}
+.ToDo-list{
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+h1{
+  display: flex;
+  justify-content: center;
+  font-weight: bold;
+  flex-direction: column;
+  text-align: center;
+  font-size: 2.8rem;
+  justify-content: center;
+  border: 1px dashed rgb(181, 255, 175);
+  color: rgb(181, 255, 175);
+  font-family: sans-serif;
+  padding: 10px;
+}
+
+input{
+  background-color: rgb(181, 255, 175);
+  font-size: 1.3rem;
+  font-family: sans-serif;
+  padding: 10px;;
+  border-radius: 5px;
+}
+
+li{ 
+  font-size: 2rem;
+  font-weight: bold;
+  background-color: rgb(181, 255, 175);
+  padding: 10px;
+  margin-bottom: 10px;
+  border: 3px dashed #0f0500;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+}
+
+button{
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10 px 20px;
+  color: white;
+  background-color: #0f0500;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.5s ease;
+}
+
+.trash-bin{
+  margin-top: 30px;
+  background-color: gray;
+}
+
+.button-list{
+  display: flex; 
+  flex-direction: row-reverse;
+  justify-content: right;
+  align-items:end;
+  margin-left: auto;
+  padding-left: 10px;
+}
+
+.pinned{
+  background-color: rgb(235, 235, 79);
+}
