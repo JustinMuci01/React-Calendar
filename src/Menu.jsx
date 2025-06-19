@@ -79,7 +79,7 @@ function Menu(props){
     }
 
     function bringBack(removedTask){
-        setTasks (t => [...t, removedTask]);
+        setTasks (t => [...t, {...removedTask, isPinned:false}]);
         setRemovedTask([]);
     }
 
