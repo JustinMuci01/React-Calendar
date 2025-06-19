@@ -2,17 +2,29 @@ import React, {useState, useEffect} from "react";
 
 function Menu(){
     
-    const[tasks, setTasks] = useState(["game", "youtube"]);
-    const[newTask, setNewTask] = useState(""); 
+    const[tasks, setTasks] = useState([
+        {
+            name: "game",
+            isPinned: false
+        }, 
+        {
+            name: "youtube",
+            isPinned: false
+        }
+        ]);
+    const[newTask, setNewTask] = useState({name:"", isPinned:false}); 
     const[removedTasks, setRemovedTask] = useState([]); 
     const currentDate = new Date();
 
     function handleInputChange(e){
-        setNewTask(e.target.value);
+        setNewTask(newTask => ({
+            ...newTask,
+            name:e.target.value
+        }));
     }
 
     function addTask(){
-        if (newTask.trim !== "")
+        if (newTask.name.trim !== "")
         {
         setTasks(t => [...t, newTask]); //take old tasks array and add newTask to the end
         setNewTask("");
@@ -29,7 +41,7 @@ function Menu(){
     }
 
     function moveTaskDown(index){
-        if (index < tasks.length-1)
+        if (index < tasks.length-1 && !tasks[index].isPinned)
         {
             const updatedTasks = [...tasks];
             [updatedTasks[index], updatedTasks[index+1]] = [updatedTasks[index+1], updatedTasks[index]];
@@ -39,7 +51,7 @@ function Menu(){
 
     function pinToTop(index){
         let deleted = tasks.filter((element, i) => i!==index);
-        let updatedTasks = [tasks[index], ...deleted];
+        let updatedTasks = [{...tasks[index], isPinned:true}, ...deleted];
         setTasks(updatedTasks);
     }
     
@@ -67,8 +79,8 @@ function Menu(){
 
         <ol>
             {tasks.map((task, index) => 
-                <li key={index}>
-                    <span className="text">{task}</span>
+                <li className={`${task.isPinned ? 'pinned' : ''}`} key={index}>
+                    <span className="text">{task.name}</span>
                     <div className = "button-list">
                     <button className="" onClick={() => removeTask(index)}>Delete</button>
                     <button className="" onClick={() => moveTaskDown(index)}>v</button>
@@ -80,7 +92,7 @@ function Menu(){
             )}
             {removedTasks.map((task, index) =>
             <li key = {-1} className = "trash-bin">
-                <span className="text">{task}</span>
+                <span className="text">{task.name}</span>
                 <button onClick={() => bringBack(task)}>Add Back</button>  
             </li>
             )}
