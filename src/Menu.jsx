@@ -18,7 +18,7 @@ function Menu(props){
             ]
         });
     const[newTask, setNewTask] = useState({name:"", isPinned:false}); 
-    const[removedTasks, setRemovedTask] = useState([]); 
+    const[removedTask, setRemovedTask] = useState(null); 
 
     function incDateChange()
     {
@@ -71,25 +71,38 @@ function Menu(props){
     }
 
     function pinToTop(index){
-        let deleted = tasks.filter((element, i) => i!==index);
-        let updatedTasks = [{...tasks[index], isPinned:true}, ...deleted];
-        setTasks(updatedTasks);
+        const key = currentDate.format("MM-DD-YYYY");
+        const currentTasks = tasks[key];
+
+        const newRemoved = {...currentTasks[index], isPinned:true};
+
+        const updatedTasks = currentTasks.filter((element, i) => i!==index);
+
+        const newTasks = [newRemoved, ...updatedTasks]
+        setTasks(prev => ({
+        ...prev,
+        [key]: newTasks
+        }));
     }
     
     function removeTask(index){
-        currentTasks = tasks[currentDate.format("MM-DD-YYYY")];
-        setRemovedTask(currentTasks[index]);
+        const currentTasks = tasks[currentDate.format("MM-DD-YYYY")];
+        if (currentTasks[index])
+        {
+        setRemovedTask({...currentTasks[index], date: currentDate.format("MM-DD-YYYY")});
+        }
         const updatedTasks = currentTasks.filter((element, i) => i!==index);
 
         setTasks(prev => ({
         ...prev,
-        [key]: [...(prev[key] || []), newTask]
+        [currentDate.format("MM-DD-YYYY")]: updatedTasks
         }));
+
+        console.log(removedTask);
     }
 
-    function bringBack(removedTask){
-        setTasks (t => [...t, {...removedTask, isPinned:false}]);
-        setRemovedTask([]);
+    function bringBack(){
+        
     }
 
     return(
@@ -121,11 +134,11 @@ function Menu(props){
 
                 </li>
             ))}
-            {removedTasks.map((task, index) =>
-            <li key = {-1} className = "trash-bin">
-                <span className="text">{task.name}</span>
-                <button onClick={() => bringBack(task)}>Add Back</button>  
-            </li>
+            {removedTask && removedTask.date === currentDate.format("MM-DD-YYYY") && (
+            <div className="trash-bin">
+                <span className="text">{removedTask.name}</span>
+                <button onClick={bringBack}>Add Back</button>
+            </div>
             )}
         </ol>
         </div>
