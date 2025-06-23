@@ -1,1 +1,1 @@
-Current calendar web app built using REACT.js.
+Calendar web application built using REACT.js framework and uses day.js library. Supports adding daily tasks, deleting tasks, changing order of tasks, and pinning to top. Look to add week preview, as well as saved data using locale storage in the future.
