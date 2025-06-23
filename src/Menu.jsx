@@ -53,20 +53,30 @@ function Menu(props){
 
 
     function moveTaskUp(index){
-        if (index >0)
+        const key = currentDate.format("MM-DD-YYYY");
+        const currentTasks = tasks[key];
+        if (index >0 )
         {
-            const updatedTasks = [...tasks];
+            const updatedTasks = [...currentTasks];
             [updatedTasks[index], updatedTasks[index-1]] = [updatedTasks[index-1], updatedTasks[index]];
-            setTasks(updatedTasks);
+        setTasks(prev => ({
+        ...prev,    
+        [key]: updatedTasks
+        }));
         }
     }
 
     function moveTaskDown(index){
-        if (index < tasks.length-1 && !tasks[index].isPinned)
+        const key = currentDate.format("MM-DD-YYYY");
+        const currentTasks = tasks[key];
+        if (index < currentTasks.length-1 && !currentTasks[index].isPinned)
         {
-            const updatedTasks = [...tasks];
+            const updatedTasks = [...currentTasks];
             [updatedTasks[index], updatedTasks[index+1]] = [updatedTasks[index+1], updatedTasks[index]];
-            setTasks(updatedTasks);
+        setTasks(prev => ({
+        ...prev,    
+        [key]: updatedTasks
+        }));
         }
     }
 
@@ -102,7 +112,15 @@ function Menu(props){
     }
 
     function bringBack(){
-        
+        const key = currentDate.format("MM-DD-YYYY");
+
+        const broughtBackTask = {...removedTask, isPinned:false};
+        setTasks(prev => ({
+        ...prev,
+        [key]: [...(prev[key] || []), broughtBackTask]
+        }));
+
+        setRemovedTask();
     }
 
     return(
