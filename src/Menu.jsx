@@ -7,17 +7,20 @@ function Menu(props){
     const[currentDate, setCurrentDate] = useState(curr);
     const[nextDay, setNextDay] = useState(currentDate.add(1, 'day'));
     const[prevDay, setPrevDay] = useState(currentDate.subtract(1, 'day'));
-    const[tasks, setTasks] = useState({
-        [curr.format("MM-DD-YYYY")]: [{
-                name: "game",
-                isPinned: false
-            }, 
-            {
-                name: "youtube",
-                isPinned: false
-            }
-            ]
-        });
+    const [tasks, setTasks] = useState(() => {
+        const saved = localStorage.getItem("tasks");
+        return saved ? JSON.parse(saved) : {
+            [curr.format("MM-DD-YYYY")]: [
+                { name: "game", isPinned: false },
+                { name: "youtube", isPinned: false }
+            ]   
+        };
+    });
+
+    useEffect(() => {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+    }, [tasks]);
+
     const[newTask, setNewTask] = useState({name:"", isPinned:false}); 
     const[removedTask, setRemovedTask] = useState(null); 
 
@@ -186,8 +189,14 @@ function Menu(props){
                     </div>
 
                 </li>
-            ))
-        )}  
+            )
+        ))}  
+        {removedTask && removedTask.date === currentDate.format("MM-DD-YYYY") && (
+            <div className="trash-bin">
+                <span className="text">{removedTask.name}</span>
+                <button onClick={bringBack}>Add Back</button>
+            </div>
+        )}
         </ol>
         </div>
         <div className = "next-day">
