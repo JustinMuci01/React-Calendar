@@ -5,7 +5,8 @@ function Menu(props){
     
     const curr = dayjs();
     const[currentDate, setCurrentDate] = useState(curr);
-
+    const[nextDay, setNextDay] = useState(currentDate.add(1, 'day'));
+    const[prevDay, setPrevDay] = useState(currentDate.subtract(1, 'day'));
     const[tasks, setTasks] = useState({
         [curr.format("MM-DD-YYYY")]: [{
                 name: "game",
@@ -22,13 +23,18 @@ function Menu(props){
 
     function incDateChange()
     {
-        let modifiedDate = currentDate.add(1, 'day');
-        setCurrentDate(modifiedDate);
+        let newPrev = currentDate;
+        setPrevDay(newPrev);
+        setCurrentDate(nextDay);
+        let modifiedDate = nextDay.add(1, 'day');
+        setNextDay(modifiedDate);
     }
     function decDateChange()
     {
-        let modifiedDate = currentDate.subtract(1, 'day');
-        setCurrentDate(modifiedDate);   
+        setNextDay(currentDate);
+        setCurrentDate(prevDay);
+        let modifiedDate = prevDay.subtract(1, 'day');
+        setPrevDay(modifiedDate);
     }
 
     function handleInputChange(e){
@@ -127,20 +133,28 @@ function Menu(props){
         <>
         <div className="ToDo-list">
         <h1><button className = "changeDate" onClick= {() =>decDateChange()}>&larr;</button>
-        {currentDate.format("MM-DD-YYYY")} 
+        {currentDate.format("dddd: MM-DD-YYYY")} 
         <button className = "changeDate" onClick= {() => incDateChange()}>&rarr;</button></h1>
         {/* We use an arrow function here to say on click run the function, without it the function would
         be ran upon rendering and the return value would be returned on click.
         This is called a wrapper function */}
 
-        <div>
+        <div className = "searchBar">
+        <h2 className = "other-day">{prevDay.format("MM-DD")}</h2>
+        <div className = "search-button-container">
         <input type="text" onChange = {handleInputChange} placeholder="Enter new task..."/> 
-        <input type="date" />
         <button onClick = {addTask}>ADD</button>
         </div>
+        <h2 className = "other-day">{nextDay.format("MM-DD")}</h2>
+        </div>
 
-        <ol>
-            {(tasks[currentDate.format("MM-DD-YYYY")] || []).map((task, index) => (
+        <div className = "day-set">
+        <div className = "previous-day">
+                <ol>
+            {(tasks[prevDay.format("MM-DD-YYYY")] || []).length === 0 ? (
+                <li className="no-tasks">No tasks</li>
+            ) : (
+            (tasks[prevDay.format("MM-DD-YYYY")] || []).map((task, index) => (
                 <li className={`${task.isPinned ? 'pinned' : ''}`} key={index}>
                     <span className="text">{task.name}</span>
                     <div className = "button-list">
@@ -151,14 +165,52 @@ function Menu(props){
                     </div>
 
                 </li>
-            ))}
-            {removedTask && removedTask.date === currentDate.format("MM-DD-YYYY") && (
-            <div className="trash-bin">
-                <span className="text">{removedTask.name}</span>
-                <button onClick={bringBack}>Add Back</button>
-            </div>
-            )}
+            ))
+        )}  
         </ol>
+
+        </div>
+        <div className = "curr-day">
+                <ol>
+            {(tasks[currentDate.format("MM-DD-YYYY")] || []).length === 0 ? (
+                <li className="no-tasks">No tasks</li>
+            ) : (
+            (tasks[currentDate.format("MM-DD-YYYY")] || []).map((task, index) => (
+                <li className={`${task.isPinned ? 'pinned' : ''}`} key={index}>
+                    <span className="text">{task.name}</span>
+                    <div className = "button-list">
+                    <button className="" onClick={() => removeTask(index)}>Delete</button>
+                    <button className="" onClick={() => moveTaskDown(index)}>v</button>
+                    <button className="" onClick={() => moveTaskUp(index)}>^</button>
+                    <button className="" onClick={() => pinToTop(index)}>Pin</button>  
+                    </div>
+
+                </li>
+            ))
+        )}  
+        </ol>
+        </div>
+        <div className = "next-day">
+                <ol>
+            {(tasks[nextDay.format("MM-DD-YYYY")] || []).length === 0 ? (
+                <li className="no-tasks">No tasks</li>
+            ) : (
+            (tasks[nextDay.format("MM-DD-YYYY")] || []).map((task, index) => (
+                <li className={`${task.isPinned ? 'pinned' : ''}`} key={index}>
+                    <span className="text">{task.name}</span>
+                    <div className = "button-list">
+                    <button className="" onClick={() => removeTask(index)}>Delete</button>
+                    <button className="" onClick={() => moveTaskDown(index)}>v</button>
+                    <button className="" onClick={() => moveTaskUp(index)}>^</button>
+                    <button className="" onClick={() => pinToTop(index)}>Pin</button>  
+                    </div>
+
+                </li>
+            ))
+        )}  
+        </ol>
+        </div>
+        </div>
         </div>
         </>
     );

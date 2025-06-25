@@ -15,27 +15,28 @@ h1{
   text-align: center;
   font-size: 2.8rem;
   justify-content: center;
-  border: 1px dashed rgb(181, 255, 175);
-  color: rgb(181, 255, 175);
+  font-weight: bold;
+  border: 1px dashed rgba(255, 255, 255, 0.836);
+  color: rgb(255, 255, 255);
   font-family: sans-serif;
   padding: 10px;
 }
 
 input{
-  background-color: rgb(181, 255, 175);
+  background-color: rgba(255, 255, 255, 0.836);
   font-size: 1.3rem;
   font-family: sans-serif;
-  padding: 10px;;
+  padding: 10px;
   border-radius: 5px;
 }
 
 li{ 
   font-size: 2rem;
   font-weight: bold;
-  background-color: rgb(181, 255, 175);
+  background-color: rgba(255, 255, 255, 0.836); 
   padding: 10px;
   margin-bottom: 10px;
-  border: 3px dashed #0f0500;
+  border: 3px solid gray;;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -60,7 +61,7 @@ button{
   font-weight: bold;
   padding: 10px;
   margin-bottom: 10px;
-  border: 3px dashed #0f0500;
+  border: 3px dashed gray;
   border-radius: 5px;
   display: flex;
   align-items: center;
@@ -80,7 +81,7 @@ button{
 }
 
 .changeDate{
-  background-color: rgb(181, 255, 175);
+  background-color: rgba(255, 255, 255, 0.836);
   color: #0f0500;
   display: flex;
   justify-content: center;
@@ -89,4 +90,52 @@ button{
   padding-bottom: 6px;
   margin-left: 10px;
   margin-right: 10px;
+}
+
+.day-set{
+  display: flex;
+  flex-direction: row;
+  width:1200px;
+  height:600px;
+  gap:10px;
+  background-color: #1d0e06;
+}
+
+.curr-day{
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 400px;
+  border:2px solid #0c0400;
+}
+
+.previous-day{
+  display: flex;
+  margin-right: auto;
+  align-items: left;
+  width: 400px;
+}
+
+.next-day{
+  display: flex;
+  align-items: right;
+  margin-left: auto;
+  width: 400px;
+}
+
+.searchBar{
+  display: flex;
+  flex-direction: row;
+  gap:150px;
+}
+
+.other-day{
+  background-color: #1d0e06;;
+  color:white;
+  font-size: 1.8rem;
+  padding: 10px;
+  margin-bottom: 0px;
+  width: 100px;
+  text-align: center;
 }
