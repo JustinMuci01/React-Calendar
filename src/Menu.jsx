@@ -135,9 +135,13 @@ function Menu(props){
     return(
         <>
         <div className="ToDo-list">
-        <h1><button className = "changeDate" onClick= {() =>decDateChange()}>&larr;</button>
+        <div className = "date-bar">
+        <button className = "changeDate" onClick= {() =>decDateChange()}>&larr;</button>
+        <h1>
         {currentDate.format("dddd: MM-DD-YYYY")} 
-        <button className = "changeDate" onClick= {() => incDateChange()}>&rarr;</button></h1>
+        </h1>
+        <button className = "changeDate" onClick= {() => incDateChange()}>&rarr;</button>
+        </div>
         {/* We use an arrow function here to say on click run the function, without it the function would
         be ran upon rendering and the return value would be returned on click.
         This is called a wrapper function */}
@@ -155,19 +159,13 @@ function Menu(props){
         <div className = "previous-day">
                 <ol>
             {(tasks[prevDay.format("MM-DD-YYYY")] || []).length === 0 ? (
-                <li className="no-tasks">No tasks</li>
+                <div className = "change-list" onClick = {() => decDateChange()}><li className="no-tasks">No tasks</li></div>
             ) : (
             (tasks[prevDay.format("MM-DD-YYYY")] || []).map((task, index) => (
-                <li className={`${task.isPinned ? 'pinned' : ''}`} key={index}>
+                 <div className = "change-list" onClick = {() => decDateChange()}><li className={`${task.isPinned ? 'pinned-other' : 'other-list'}`} key={index}>
                     <span className="text">{task.name}</span>
-                    <div className = "button-list">
-                    <button className="" onClick={() => removeTask(index)}>Delete</button>
-                    <button className="" onClick={() => moveTaskDown(index)}>v</button>
-                    <button className="" onClick={() => moveTaskUp(index)}>^</button>
-                    <button className="" onClick={() => pinToTop(index)}>Pin</button>  
-                    </div>
-
                 </li>
+                </div>
             ))
         )}  
         </ol>
@@ -202,19 +200,15 @@ function Menu(props){
         <div className = "next-day">
                 <ol>
             {(tasks[nextDay.format("MM-DD-YYYY")] || []).length === 0 ? (
-                <li className="no-tasks">No tasks</li>
+                <div className = "change-list" onClick = {() => incDateChange()}><li className="no-tasks">No tasks</li> </div>
             ) : (
             (tasks[nextDay.format("MM-DD-YYYY")] || []).map((task, index) => (
-                <li className={`${task.isPinned ? 'pinned' : ''}`} key={index}>
+            <div className = "change-list" onClick = {() => incDateChange()}>  
+            <li className={`${task.isPinned ? 'pinned-other' : 'other-list'}`} key={index}>
                     <span className="text">{task.name}</span>
-                    <div className = "button-list">
-                    <button className="" onClick={() => removeTask(index)}>Delete</button>
-                    <button className="" onClick={() => moveTaskDown(index)}>v</button>
-                    <button className="" onClick={() => moveTaskUp(index)}>^</button>
-                    <button className="" onClick={() => pinToTop(index)}>Pin</button>  
-                    </div>
 
-                </li>
+            </li>
+            </div>
             ))
         )}  
         </ol>
